@@ -9,6 +9,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.use(express.json());// a function that runs between request and response, parses req.body
+
 app.use("/api/auth", authRoutes);
 
 

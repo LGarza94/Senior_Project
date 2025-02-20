@@ -2,9 +2,10 @@
   "name": "senior_project",
   "version": "1.0.0",
   "description": "Creating a social media platform that is based on health and fitness.",
-  "main": "index.js",
+  "main": "backend/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev":"nodemon backend/server.js",
+    "start":"node backend/server.js"
   },
   "repository": {
     "type": "git",
@@ -12,8 +13,8 @@
   },
   "keywords": [],
   "author": "",
+  "type": "module",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/LGarza94/Senior_Project/issues"
   },

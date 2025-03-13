@@ -4,7 +4,11 @@ import bcrypt from 'bcryptjs';
 
 export const signup = async(req,res) => {
     try {
-        const {fullName, username, email, password} = req.body;
+        const { fullName, username, email, password } = req.body;
+
+        if(password.length < 6){
+            return res.status(400).json({error: "Password must be at least 6 characters long"});
+        }
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if(!emailRegex.test(email)){
@@ -20,6 +24,8 @@ export const signup = async(req,res) => {
         if(existingEmail){
             return res.status(400).json({error: "Email is already taken"});
         }
+
+        
 
         //password: 13456, password needs to be hashed
         const salt = await bcrypt.genSalt(10);

@@ -241,5 +241,5 @@ export const getUserPosts = async(req, res) => {
         console.log("Error in getUserPosts controller: ", error);
         res.status(500).json({error: "Internal server error"});
     }
-}
+};
 

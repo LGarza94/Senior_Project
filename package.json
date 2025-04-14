@@ -4,8 +4,8 @@
   "description": "Creating a social media platform that is based on health and fitness.",
   "main": "backend/server.js",
   "scripts": {
-    "dev":"nodemon backend/server.js",
-    "start":"node backend/server.js"
+    "dev": "nodemon backend/server.js",
+    "start": "node backend/server.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/LGarza94/Senior_Project#readme",
   "dependencies": {
+    "@tanstack/react-query": "^5.72.2",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.5.1",
     "cookie-parser": "^1.4.7",

@@ -23,7 +23,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cookieParser());
-app.use(express.json());// a function that runs between request and response, parses req.body
+app.use(express.json({limit:"5mb"}));// a function that runs between request and response, parses req.body
 app.use(express.urlencoded({extended:true})); // to parse form data(urlencoded)
 
 app.use("/api/auth", authRoutes);

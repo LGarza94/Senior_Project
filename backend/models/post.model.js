@@ -15,6 +15,11 @@ const postSchema = new mongoose.Schema({
     vid:{
         type: String,
     },
+    postType:{
+        type: String,
+        enum: ['regular', 'workout', 'mealprep'],
+        default: 'regular'
+    },
     likes:[
         {
             type: mongoose.Schema.Types.ObjectId,

@@ -3,14 +3,26 @@ import { BsEmojiSmileFill } from "react-icons/bs";
 import { useRef, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 
-const CreatePost = () => {
+const CreatePost = ({currentTab = "forYou"}) => {
 	const [text, setText] = useState("");
 	const [img, setImg] = useState(null);
   //const [vid, setVid] = useState(null);
+  
+	const getPostTypeFromTab = (tab) => {
+		switch(tab){
+			case "forYou": return "regular";
+			case "following": return "following";
+			case "workout": return "workout";
+			case "mealprep": return "mealprep";
+			default: return "regular";
+		}
+	}
+
+	const postType = getPostTypeFromTab(currentTab);
+	//const [postType, setPostType] = useState("regular");
 
 	const imgRef = useRef(null);
-  //const vidRef = useRef(null);
-
+  	//const vidRef = useRef(null);
 	const isPending = false;
 	const isError = false;
 
@@ -20,6 +32,8 @@ const CreatePost = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
+		console.log("Creating post with type:", postType);
 		alert("Post created successfully");
 	};
 
@@ -44,7 +58,7 @@ const CreatePost = () => {
 			<form className='flex flex-col gap-2 w-full' onSubmit={handleSubmit}>
 				<textarea
 					className='textarea w-full p-0 text-lg resize-none border-none focus:outline-none  border-gray-800'
-					placeholder='What healthy thing did you do today?!'
+					placeholder={`Share your ${currentTab === 'workout' ? 'workout' : currentTab === 'mealprep' ? 'meal prep' : 'thoughts'}...`}
 					value={text}
 					onChange={(e) => setText(e.target.value)}
 				/>

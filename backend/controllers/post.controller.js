@@ -6,7 +6,7 @@ import { v2 as cloudinary } from 'cloudinary';
 
 export const createPost = async (req, res) => {
     try{
-        const {text} = req.body;
+        const {text, postType} = req.body;
         let {img} = req.body;
         let {video} = req.body;
         const userId = req.user._id.toString();
@@ -28,11 +28,15 @@ export const createPost = async (req, res) => {
             video = uploadedResponse.secure_url;
         }
 
+        //to validate postType
+        const validPostTypes = ['regular', 'workout','mealprep'];
+        const finalPostType = postType && validPostTypes.includes(postType) ? postType : 'regular';
+
         const newPost = new Post({
             user:userId,
             text,
             img,
-            video,
+            postType: finalPostType,
         })
 
         await newPost.save();
@@ -142,7 +146,7 @@ export const deletePost = async (req, res) => {
 
 export const getAllPosts = async (req, res) => {
     try {
-        const posts = await Post.find()
+        const posts = await Post.find({postType: 'regular'})
         .sort({createdAt: -1})
         .populate({
             path: "user",
@@ -242,4 +246,63 @@ export const getUserPosts = async(req, res) => {
         res.status(500).json({error: "Internal server error"});
     }
 };
+
+export const getMealPrepPosts = async (req, res) => {
+
+    try {
+        const userId = req.user._id;
+        const user = await User.findById(userId);
+        if(!user) return res.status(404).json({error: "User not found"});
+
+        //find all posts with postType: 'mealprep'
+        const mealPrepPosts = await Post.find({
+            postType: 'mealprep'
+        })
+        .sort({createdAt: -1})
+        .populate({
+            path: "user",
+            select: "-password",
+        })
+        .populate({
+            path: "comments.user",
+            select: "-password",
+        });
+
+        res.status(200).json(mealPrepPosts)
+    } catch (error) {
+        console.log("Error in the getMealprepPosts controller: ", error);
+        res.status(500).json({error: "Internal server error"});
+    }
+
+};
+
+export const getWorkOutPosts = async (req, res) => {
+
+    try {
+        const userId = req.user._id;
+        const user = await User.findById(userId);
+        if(!user) return res.status(404).json({error: "User not found"});
+
+        ////find all posts with postType: 'workout'
+        const workoutPosts = await Post.find({
+            postType: 'workout'
+        })
+        .sort({createdAt: -1})
+        .populate({
+            path: "user",
+            select: "-password",
+        })
+        .populate({
+            path: "comments.user",
+            select: "-password",
+        });
+
+        res.status(200).json(workoutPosts)
+    } catch (error) {
+        console.log("Error in the getWorkOutPosts controller: ", error);
+        res.status(500).json({error: "Internal server error"});
+    }
+
+};
+
 

@@ -10,7 +10,7 @@ const RightPanel = () => {
 		queryKey: ["suggestedUsers"],
 		queryFn: async () =>{
 			try {
-				const res = await fetch("api/users/suggested");
+				const res = await fetch("/api/users/suggested");
 				const data = await res.json();
 				if(!res.ok){
 					throw new Error(data.message || "Something went wrong");

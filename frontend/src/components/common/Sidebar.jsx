@@ -35,7 +35,16 @@ const Sidebar = () => {
 			toast.error("Logout failed");
 		}
 	})
-	const {data:authUser} = useQuery({queryKey: ["authUser"]})
+	const { data:authUser} = useQuery({queryKey: ["authUser"], 
+		queryFn: async () => {
+			const res = await fetch('/api/auth/me');
+			if(!res.ok) throw new Error('Failed to fetch user');
+
+			const data = res.json();
+
+			return data;
+		}
+	});
 
 	return (
 		<div className='md:flex-[2_2_0] w-18 max-w-52'>

@@ -40,11 +40,11 @@ const NotificationPage = () => {
 			}
 		},
 		onSuccess: () => {
-			toast.success("Notification delted succesfully");
+			//toast.success("Notification deleted succesfully");
 			queryClient.invalidateQueries({queryKey: ["notifications"]});
 		},
 		onError: (error) => {
-			toast.error(error.message);
+			//toast.error(error.message);
 		},
 	});
 

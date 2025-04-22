@@ -41,7 +41,7 @@ const Post = ({ post }) => {
 			}
 		},
 		onSuccess: () => {
-			toast.success("Post deleted succesfully");
+			//toast.success("Post deleted succesfully");
 			// we will invalidate query to refetch data
 			queryClient.invalidateQueries({queryKey: ["posts"]});
 		}
@@ -90,7 +90,7 @@ const Post = ({ post }) => {
 			});
 		  },
 		onError:(error)=> {
-			toast.error("ooga booga");
+			//toast.error("ooga booga");
 		}
 	});
 
@@ -118,12 +118,12 @@ const Post = ({ post }) => {
 			}
 		},
 		onSuccess: () => {
-			toast.success("Comment posted succesfully");
+			//toast.success("Comment posted succesfully");
 			setComment("");
 			queryClient.invalidateQueries({queryKey: ["posts"]});
 		},
 		onError: (error) => {
-			toast.error(error.message);
+			//toast.error(error.message);
 		},
 	});
 

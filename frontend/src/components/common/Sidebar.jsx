@@ -18,11 +18,14 @@ const Sidebar = () => {
 			try {
 				const res = await fetch("/api/auth/logout",{
 					method: "POST",
-				})
+					credentials: "include",
+				});
 
 				const data = await res.json();
 
 				if(!res.ok){throw new Error(data.error || "Something went wrong");}
+
+				return data;
 			} catch (error) {
 				throw new Error(error);
 			}
@@ -34,17 +37,20 @@ const Sidebar = () => {
 		onError:() => {
 			toast.error("Logout failed");
 		}
-	})
-	const { data:authUser} = useQuery({queryKey: ["authUser"], 
+	});
+
+	const { data: authUser } = useQuery({ queryKey: ["authUser"] });
+
+	/*const { data:authUser} = useQuery({queryKey: ["authUser"], 
 		queryFn: async () => {
 			const res = await fetch('/api/auth/me');
 			if(!res.ok) throw new Error('Failed to fetch user');
 
-			const data = res.json();
+			const data = await res.json();
 
 			return data;
 		}
-	});
+	});*/
 
 	return (
 		<div className='md:flex-[2_2_0] w-18 max-w-52'>

@@ -48,7 +48,7 @@ const CreatePost = ({currentTab = "forYou"}) => {
 			setText("");
 			setImg(null);
 			//setVid(null);
-			toast.success("Post created successfully");
+			//toast.success("Post created successfully");
 			queryClient.invalidateQueries({queryKey: ['posts']});
 		},
 	})
@@ -65,8 +65,8 @@ const CreatePost = ({currentTab = "forYou"}) => {
 		e.preventDefault();
 		createPost({text, img, postType});
 
-		console.log("Creating post with type:", postType);
-		alert("Post created successfully");
+		//console.log("Creating post with type:", postType);
+		//alert("Post created successfully");
 	};
 
 	const handleImgChange = (e) => {
@@ -113,7 +113,7 @@ const CreatePost = ({currentTab = "forYou"}) => {
 							className='fill-primary w-6 h-6 cursor-pointer'
 							onClick={() => imgRef.current.click()}
 						/>
-						<BsEmojiSmileFill className='fill-primary w-5 h-5 cursor-pointer' />
+						{/*<BsEmojiSmileFill className='fill-primary w-5 h-5 cursor-pointer' />*/}
 					</div>
 					<input type='file' 
             accept='image/*'

@@ -36,7 +36,7 @@ const ProfilePage = () => {
 		refetch,
 		isRefetching,
 	} = useQuery({
-		queryKey: ["userProfile"],
+		queryKey: ["userProfile", username],
 		queryFn: async () => {
 			try {
 				const res = await fetch(`/api/users/profile/${username}`);
@@ -49,13 +49,15 @@ const ProfilePage = () => {
 				throw new Error(error);
 			}
 		},
+
+		enables: !!username,
 	});
 
 	const { isUpdatingProfile, updateProfile } = useUpdateUserProfile();
 
-	const isMyProfile = authUser._id === user?._id;
+	const isMyProfile = authUser && user && authUser._id === user?._id;
 	const memberSinceDate = formatMemberSinceDate(user?.createdAt);
-	const amIFollowing = authUser?.following.includes(user?._id);
+	const amIFollowing = authUser && user && authUser?.following.includes(user?._id);
 
 	const handleImgChange = (e, state) => {
 		const file = e.target.files[0];
@@ -175,12 +177,11 @@ const ProfilePage = () => {
 											<>
 												<FaLink className='w-3 h-3 text-slate-500' />
 												<a
-													href='https://youtube.com/@asaprogrammer_'
+													href={user.link.startsWith('http') ? user.link : `https://${user.link}`}
 													target='_blank'
 													rel='noreferrer'
 													className='text-sm text-blue-500 hover:underline'
 												>
-													{/* Updated this after recording the video. I forgot to update this while recording, sorry, thx. */}
 													{user?.link}
 												</a>
 											</>

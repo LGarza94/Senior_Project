@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import useUpdateUserProfile from "../../hooks/useUpdateUserProfile";
+import { useNavigate } from "react-router-dom";
 
 const EditProfileModal = ({ authUser }) => {
+	const navigate = useNavigate();
+
 	const [formData, setFormData] = useState({
 		fullName: "",
 		username: "",
@@ -45,11 +48,25 @@ const EditProfileModal = ({ authUser }) => {
 					<h3 className='font-bold text-lg my-3'>Update Profile</h3>
 					<form
 						className='flex flex-col gap-4'
-						onSubmit={(e) => {
+						onSubmit={async (e) => {
 							e.preventDefault();
-							updateProfile(formData);
-						}}
-					>
+							const originalUsername = authUser?.username;
+    
+							// Use await to make sure the update completes
+							await updateProfile(formData);
+							
+							// Close the modal
+							document.getElementById("edit_profile_modal").close();
+							
+							// If username was changed, redirect to the new profile URL
+							if (formData.username !== originalUsername) {
+							  // Short delay to ensure the update completes
+							  setTimeout(() => {
+								navigate(`/profile/${formData.username}`);
+							  }, 500);
+							}
+						  }}
+						>
 						<div className='flex flex-wrap gap-2'>
 							<input
 								type='text'

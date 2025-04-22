@@ -7,6 +7,11 @@ const useUpdateUserProfile = () => {
 	const { mutateAsync: updateProfile, isPending: isUpdatingProfile } = useMutation({
 		mutationFn: async (formData) => {
 			try {
+
+				if (formData.link && formData.link.trim() !== "" && !formData.link.match(/^https?:\/\//)) {
+					formData.link = `https://${formData.link}`;
+				  }
+				  
 				const res = await fetch(`/api/users/update`, {
 					method: "POST",
 					headers: {

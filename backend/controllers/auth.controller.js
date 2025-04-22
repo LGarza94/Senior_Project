@@ -111,4 +111,4 @@ export const getMe = async(req,res) => {
         console.log("Error in getMe controller", error.message);
         res.status(500).json({error: "Internal Server Error"});
     }
-}
+};

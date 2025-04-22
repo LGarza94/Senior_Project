@@ -69,15 +69,26 @@ const Post = ({ post }) => {
 			//queryClient.invalidateQueries({queryKey:["posts"]});
 			// we will update cache directly for specific post
 
-			queryClient.setQueryData(["posts"], (oldData) => {
-				return oldData.map((p) => {
-					if(p._id === post._id){
-						return {...p, likes:updatedLikes};
-					}
-					return p;
-				});
+			const queryCache = queryClient.getQueryCache();
+			const postQueries = queryCache.findAll({
+			  queryKey: ['posts']
 			});
-		},
+			
+			// Update each query that contains this post
+			postQueries.forEach(query => {
+			  queryClient.setQueryData(query.queryKey, (oldData) => {
+				// Guard against null or non-array data
+				if (!oldData || !Array.isArray(oldData)) return oldData;
+				
+				return oldData.map((p) => {
+				  if (p._id === post._id) {
+					return {...p, likes: updatedLikes};
+				  }
+				  return p;
+				});
+			  });
+			});
+		  },
 		onError:(error)=> {
 			toast.error("ooga booga");
 		}
@@ -180,22 +191,7 @@ const Post = ({ post }) => {
 								</span>
 							</div>
 
-							{/* like icon */}
-							<div className='flex gap-1 items-center group cursor-pointer group' onClick={handleLikePost}>
-								{isLiking && <LoadingSpinner size='sm' />}
-								{!isLiked && !isLiking && (
-									<FaRegHeart className='w-4 h-4 cursor-pointer text-slate-500 group-hover:text-pink-500' />
-								)}
-								{isLiked && !isLiking && (<FaRegHeart className='w-4 h-4 cursor-pointer text-pink-500 ' />)}
-
-								<span
-									className={`text-sm  group-hover:text-pink-500 ${
-										isLiked ? "text-pink-500" : "text-slate-500"
-									}`}
-								>
-									{post.likes.length}
-								</span>
-							</div>
+							
 
 							{/* We're using Modal Component from DaisyUI */}
 							<dialog id={`comments_modal${post._id}`} className='modal border-none outline-none'>
@@ -247,6 +243,22 @@ const Post = ({ post }) => {
 									<button className='outline-none'>close</button>
 								</form>
 							</dialog>
+							{/* like icon */}
+							<div className='flex gap-1 items-center group cursor-pointer group' onClick={handleLikePost}>
+								{isLiking && <LoadingSpinner size='sm' />}
+								{!isLiked && !isLiking && (
+									<FaRegHeart className='w-4 h-4 cursor-pointer text-slate-500 group-hover:text-pink-500' />
+								)}
+								{isLiked && !isLiking && (<FaRegHeart className='w-4 h-4 cursor-pointer text-pink-500 ' />)}
+
+								<span
+									className={`text-sm  group-hover:text-pink-500 ${
+										isLiked ? "text-pink-500" : "text-slate-500"
+									}`}
+								>
+									{post.likes.length}
+								</span>
+							</div>
 							{/*<div className='flex gap-1 items-center group cursor-pointer opacity-0'>
 								<BiRepost className='w-6 h-6  text-slate-500 group-hover:text-green-500' />
 								<span className='text-sm text-slate-500 group-hover:text-green-500'>0</span>

@@ -168,9 +168,10 @@ const Post = ({ post }) => {
 						)}
 					</div>
 					<div className='flex justify-between mt-3'>
-						<div className='flex gap-4 items-center w-2/3 justify-between'>
+						<div className='flex gap-2 items-center'>
+							{/*comment icon*/}
 							<div
-								className='flex gap-1 items-center cursor-pointer group'
+								className='flex gap-1 items-center cursor-pointer group mr-5'
 								onClick={() => document.getElementById("comments_modal" + post._id).showModal()}
 							>
 								<FaRegComment className='w-4 h-4  text-slate-500 group-hover:text-sky-400' />
@@ -178,6 +179,24 @@ const Post = ({ post }) => {
 									{post.comments.length}
 								</span>
 							</div>
+
+							{/* like icon */}
+							<div className='flex gap-1 items-center group cursor-pointer group' onClick={handleLikePost}>
+								{isLiking && <LoadingSpinner size='sm' />}
+								{!isLiked && !isLiking && (
+									<FaRegHeart className='w-4 h-4 cursor-pointer text-slate-500 group-hover:text-pink-500' />
+								)}
+								{isLiked && !isLiking && (<FaRegHeart className='w-4 h-4 cursor-pointer text-pink-500 ' />)}
+
+								<span
+									className={`text-sm  group-hover:text-pink-500 ${
+										isLiked ? "text-pink-500" : "text-slate-500"
+									}`}
+								>
+									{post.likes.length}
+								</span>
+							</div>
+
 							{/* We're using Modal Component from DaisyUI */}
 							<dialog id={`comments_modal${post._id}`} className='modal border-none outline-none'>
 								<div className='modal-box rounded border border-gray-600'>
@@ -228,28 +247,14 @@ const Post = ({ post }) => {
 									<button className='outline-none'>close</button>
 								</form>
 							</dialog>
-							<div className='flex gap-1 items-center group cursor-pointer'>
+							{/*<div className='flex gap-1 items-center group cursor-pointer opacity-0'>
 								<BiRepost className='w-6 h-6  text-slate-500 group-hover:text-green-500' />
 								<span className='text-sm text-slate-500 group-hover:text-green-500'>0</span>
-							</div>
-							<div className='flex gap-1 items-center group cursor-pointer' onClick={handleLikePost}>
-								{isLiking && <LoadingSpinner size='sm' />}
-								{!isLiked && !isLiking && (
-									<FaRegHeart className='w-4 h-4 cursor-pointer text-slate-500 group-hover:text-pink-500' />
-								)}
-								{isLiked && !isLiking && (<FaRegHeart className='w-4 h-4 cursor-pointer text-pink-500 ' />)}
-
-								<span
-									className={`text-sm  group-hover:text-pink-500 ${
-										isLiked ? "text-pink-500" : "text-slate-500"
-									}`}
-								>
-									{post.likes.length}
-								</span>
-							</div>
+							</div>*/}
+							
 						</div>
-						<div className='flex w-1/3 justify-end gap-2 items-center'>
-							<FaRegBookmark className='w-4 h-4 text-slate-500 cursor-pointer' />
+						<div className='flex w-1/3 justify-end gap-2 items-center opacity-0'>
+							{/*<FaRegBookmark className='w-4 h-4 text-slate-500 cursor-pointer' />*/}
 						</div>
 					</div>
 				</div>

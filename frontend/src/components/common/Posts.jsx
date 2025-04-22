@@ -20,6 +20,10 @@ const Posts = ({feedType, username, userId}) => {
 				return `/api/posts/user/${username}`;
 			case "likes":
 				return `/api/posts/likes/${userId}`;
+			case "userMealprep":
+				return `/api/posts/category/mealprep/user/${username}`;
+			case "userWorkout":
+				return `/api/posts/category/workout/user/${username}`;
 			default :
 				return "/api/posts/all";
 		}
@@ -28,9 +32,10 @@ const Posts = ({feedType, username, userId}) => {
 	const POST_ENDPOINT = getPostEndpoint();
 
 	const {data:posts, isLoading, refetch, isRefetching} = useQuery({
-		queryKey: ["posts"],
+		queryKey: ["posts", feedType, username, userId],
 		queryFn: async () => {
 			try {
+
 				const res = await fetch(POST_ENDPOINT);
 				const data = await res.json();
 

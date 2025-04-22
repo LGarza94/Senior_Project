@@ -212,6 +212,26 @@ const ProfilePage = () => {
 										<div className='absolute bottom-0 w-10 h-1 rounded-full bg-primary' />
 									)}
 								</div>
+								{/* Adding workout tab */}
+								<div
+									className='flex justify-center flex-1 p-3 text-slate-500 hover:bg-secondary transition duration-300 relative cursor-pointer'
+									onClick={() => setFeedType("userWorkout")}
+								>
+									Workout
+									{feedType === "userWorkout" && (
+									<div className='absolute bottom-0 w-10 h-1 rounded-full bg-primary' />
+									)}
+								</div>
+								 {/* Add mealprep tab */}
+								<div
+									className='flex justify-center flex-1 p-3 text-slate-500 hover:bg-secondary transition duration-300 relative cursor-pointer'
+									onClick={() => setFeedType("userMealprep")}
+								>
+									Meal Prep
+									{feedType === "userMealprep" && (
+									<div className='absolute bottom-0 w-10 h-1 rounded-full bg-primary' />
+									)}
+								</div>
 								<div
 									className='flex justify-center flex-1 p-3 text-slate-500 hover:bg-secondary transition duration-300 relative cursor-pointer'
 									onClick={() => setFeedType("likes")}

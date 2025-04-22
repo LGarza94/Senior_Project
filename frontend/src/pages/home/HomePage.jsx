@@ -52,7 +52,7 @@ const HomePage = () => {
 				</div>
 
 				{/*  CREATE POST INPUT */}
-				<CreatePost currentTab={feedType}/>
+				{feedType !== "following" && (<CreatePost currentTab={feedType}/>)}
 
 				{/* POSTS */}
 				<Posts feedType={feedType}/>

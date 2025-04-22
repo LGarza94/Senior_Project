@@ -26,14 +26,14 @@ const CreatePost = ({currentTab = "forYou"}) => {
 	const queryClient = useQueryClient();
 
 	const {mutate:createPost, isPending, isError, error} = useMutation({
-		mutationFn: async ({text, img}) => {
+		mutationFn: async ({text, img, postType}) => {
 			try{
 				const res = await fetch("/api/posts/create", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({text,img}),
+					body: JSON.stringify({text,img, postType}),
 				})
 				const data = await res.json();
 				if(!res.ok){
@@ -63,7 +63,7 @@ const CreatePost = ({currentTab = "forYou"}) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		createPost({text, img});
+		createPost({text, img, postType});
 
 		console.log("Creating post with type:", postType);
 		alert("Post created successfully");
